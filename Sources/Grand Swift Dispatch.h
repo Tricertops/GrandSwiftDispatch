@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Triceratops. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import Foundation
 
 //! Project version number for Grand Swift Dispatch.
 FOUNDATION_EXPORT double Grand_Swift_DispatchVersionNumber;
