@@ -29,21 +29,41 @@ class Queue {
     
     convenience init(name: String = "", concurrent: Bool = true, target: Queue = Background) {
         assert(concurrent && !target.isConcurrent, "Cannot create concurrent queue targetted to serial queue.")
+        
         //TODO: Prefix name with application identifier?
         let underlaying = dispatch_queue_create("", (concurrent ? DISPATCH_QUEUE_CONCURRENT : DISPATCH_QUEUE_SERIAL))
         dispatch_set_target_queue(underlaying, target._underlaying)
         
         self.init(_name: name, _concurrent: concurrent, _underlaying: underlaying)
         self.target = target
+        self._rootTarget = target._rootTarget
+    }
+    
+    func isTargettedTo(queue target: Queue) -> Bool {
+        var queue: Queue? = self
+        while queue? {
+            if queue === target { return true }
+            queue = queue?.target
+        }
+        return false
     }
     
     
     let _underlaying: dispatch_queue_t
+    let _rootTarget: Queue?
     
     init(_name: String, _concurrent: Bool, _underlaying: dispatch_queue_t) {
         self.name = _name
         self.isConcurrent = _concurrent
         self._underlaying = _underlaying
+        //TODO: Set specific key
     }
+    
+    class var current: Queue? {
+        //TODO: Get specific key
+    return nil
+    }
+    
+    
 }
 
