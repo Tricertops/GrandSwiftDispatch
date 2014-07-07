@@ -10,6 +10,8 @@
 		5BA1CB8F196A75A50075DB57 /* Grand Swift Dispatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BA1CB83196A75A50075DB57 /* Grand Swift Dispatch.framework */; };
 		5BA1CBA1196A75D30075DB57 /* Grand Swift Dispatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BA1CBA0196A75D30075DB57 /* Grand Swift Dispatch.h */; };
 		5BA1CBA6196A75FB0075DB57 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5BA1CBA4196A75FB0075DB57 /* Info.plist */; };
+		5BA1CBD8196A78050075DB57 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1CBD2196A77FA0075DB57 /* AppDelegate.swift */; };
+		5BA1CBD9196A780B0075DB57 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BA1CBD3196A77FA0075DB57 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,10 @@
 		5BA1CBA0196A75D30075DB57 /* Grand Swift Dispatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Grand Swift Dispatch.h"; sourceTree = "<group>"; };
 		5BA1CBA4196A75FB0075DB57 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BA1CBA7196A761B0075DB57 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5BA1CBB7196A77D50075DB57 /* GSD Try App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GSD Try App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BA1CBD2196A77FA0075DB57 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5BA1CBD3196A77FA0075DB57 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		5BA1CBD4196A77FA0075DB57 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +73,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5BA1CBB4196A77D50075DB57 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -75,6 +88,7 @@
 			children = (
 				5BA1CBA7196A761B0075DB57 /* Info.plist */,
 				5BA1CB9F196A75D30075DB57 /* Sources */,
+				5BA1CBD1196A77FA0075DB57 /* Try App */,
 				5BA1CBA2196A75FB0075DB57 /* Tests */,
 				5BA1CB84196A75A50075DB57 /* Products */,
 			);
@@ -85,6 +99,7 @@
 			children = (
 				5BA1CB83196A75A50075DB57 /* Grand Swift Dispatch.framework */,
 				5BA1CB8E196A75A50075DB57 /* GSD Tests.xctest */,
+				5BA1CBB7196A77D50075DB57 /* GSD Try App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -103,6 +118,16 @@
 				5BA1CBA4196A75FB0075DB57 /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		5BA1CBD1196A77FA0075DB57 /* Try App */ = {
+			isa = PBXGroup;
+			children = (
+				5BA1CBD2196A77FA0075DB57 /* AppDelegate.swift */,
+				5BA1CBD3196A77FA0075DB57 /* Images.xcassets */,
+				5BA1CBD4196A77FA0075DB57 /* Info.plist */,
+			);
+			path = "Try App";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,6 +183,23 @@
 			productReference = 5BA1CB8E196A75A50075DB57 /* GSD Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		5BA1CBB6196A77D50075DB57 /* GSD Try App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5BA1CBCF196A77D50075DB57 /* Build configuration list for PBXNativeTarget "GSD Try App" */;
+			buildPhases = (
+				5BA1CBB3196A77D50075DB57 /* Sources */,
+				5BA1CBB4196A77D50075DB57 /* Frameworks */,
+				5BA1CBB5196A77D50075DB57 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GSD Try App";
+			productName = "GSD Try App";
+			productReference = 5BA1CBB7196A77D50075DB57 /* GSD Try App.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -173,6 +215,9 @@
 					5BA1CB8D196A75A50075DB57 = {
 						CreatedOnToolsVersion = 6.0;
 						TestTargetID = 5BA1CB82196A75A50075DB57;
+					};
+					5BA1CBB6196A77D50075DB57 = {
+						CreatedOnToolsVersion = 6.0;
 					};
 				};
 			};
@@ -190,6 +235,7 @@
 			targets = (
 				5BA1CB82196A75A50075DB57 /* Grand Swift Dispatch */,
 				5BA1CB8D196A75A50075DB57 /* GSD Tests */,
+				5BA1CBB6196A77D50075DB57 /* GSD Try App */,
 			);
 		};
 /* End PBXProject section */
@@ -210,6 +256,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5BA1CBB5196A77D50075DB57 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5BA1CBD9196A780B0075DB57 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -224,6 +278,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5BA1CBB3196A77D50075DB57 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5BA1CBD8196A78050075DB57 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +464,34 @@
 			};
 			name = Release;
 		};
+		5BA1CBCB196A77D50075DB57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Try App/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		5BA1CBCC196A77D50075DB57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = "Try App/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -421,12 +511,22 @@
 				5BA1CB9B196A75A50075DB57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5BA1CB9C196A75A50075DB57 /* Build configuration list for PBXNativeTarget "GSD Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5BA1CB9D196A75A50075DB57 /* Debug */,
 				5BA1CB9E196A75A50075DB57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5BA1CBCF196A77D50075DB57 /* Build configuration list for PBXNativeTarget "GSD Try App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5BA1CBCB196A77D50075DB57 /* Debug */,
+				5BA1CBCC196A77D50075DB57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
