@@ -15,8 +15,10 @@ import Foundation
 typealias Queue = NSOperationQueue
 extension Queue {
     
-    convenience init(name: String, concurrent: Bool) {
+    //TODO: Use init with default values, but that doesn't compile.
+    convenience init(concurrent: Bool) {
         self.init()
+        self.maxConcurrentOperationCount = (concurrent ? NSOperationQueueDefaultMaxConcurrentOperationCount : 1)
     }
     
     class var main: Queue { return Queue.mainQueue()! }
