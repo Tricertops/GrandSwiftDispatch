@@ -43,6 +43,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSLog("Multiple")
         }
         
+        queue.perform {
+            // Task
+            Queue.main.perform {
+                // Callback
+            }
+        }
+        
         
         return true
     }

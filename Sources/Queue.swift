@@ -10,8 +10,6 @@ import Foundation
 
 
 
-//TODO: QOS classes from iOS 8 and OS X 10.10
-
 typealias Queue = NSOperationQueue
 extension Queue {
     
@@ -23,7 +21,7 @@ extension Queue {
     
     class var main: Queue { return Queue.mainQueue()! }
     class var current: Queue { return Queue.currentQueue()! }
-    
+    //TODO: Global queues for Quality of Service cases.
     
     func perform(wait: Bool? = nil, barrier: Bool = false, closure: () -> ()) {
         
