@@ -21,7 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.rootViewController = UIViewController()
         self.window!.makeKeyAndVisible()
         
-        let queue = Queue(concurrent: true)
+        let queue = Queue.current
+        NSLog("underlaying: \(queue.underlyingQueue.description)")
+        NSLog("max operations: \(queue.maxConcurrentOperationCount)")
         
         queue.perform {
             NSLog("Simple")
@@ -31,17 +33,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSLog("Waiting")
         }
         
-        queue.perform(wait: true, barrier: true) {
-            NSLog("Barrier")
-        }
+//        queue.perform(wait: true, barrier: true) {
+//            NSLog("Barrier")
+//        }
         
         queue.perform(after: 2) {
             NSLog("Delay")
         }
         
-        queue.perform(times: 5) {
-            NSLog("Multiple")
-        }
+//        queue.perform(times: 5) {
+//            NSLog("Multiple")
+//        }
         
         
         return true
