@@ -27,8 +27,8 @@ class Queue {
     let isConcurrent: Bool
     let target: Queue?
     
-    convenience init(name: String = "", concurrent: Bool = true, target: Queue = Background) {
-        assert(concurrent && !target.isConcurrent, "Cannot create concurrent queue targetted to serial queue.")
+    convenience init(name: String = "", concurrent: Bool = false, target: Queue = Background) {
+        assert( !concurrent || target.isConcurrent, "Cannot create concurrent queue targetted to serial queue.")
         
         //TODO: Prefix name with application identifier?
         let underlaying = dispatch_queue_create("", (concurrent ? DISPATCH_QUEUE_CONCURRENT : DISPATCH_QUEUE_SERIAL))
@@ -36,7 +36,7 @@ class Queue {
         
         self.init(_name: name, _concurrent: concurrent, _underlaying: underlaying)
         self.target = target
-        self._rootTarget = target._rootTarget
+        self._rootTarget = (target._rootTarget ? target._rootTarget : target)
     }
     
     func isTargettedTo(queue target: Queue) -> Bool {
@@ -47,6 +47,8 @@ class Queue {
         }
         return false
     }
+    
+    var isRoot: Bool { return self._rootTarget == nil }
     
     
     let _underlaying: dispatch_queue_t
@@ -64,6 +66,47 @@ class Queue {
     return nil
     }
     
+    
+    func wouldDeadlockWhileWaiting() -> Bool {
+        return false
+    }
+    
+    
+    func perform(wait: Bool? = nil, barrier: Bool = false, closure: () -> ()) {
+        assert( !barrier || !self.isRoot, "Cannot perform barrier block on root queue.")
+        
+        let wouldDeadlock = self.wouldDeadlockWhileWaiting()
+        assert( !barrier || !wouldDeadlock, "Cannot perform barrier on deadlocking queue.")
+        
+        let invokeDirectly = (barrier == false && wouldDeadlock)
+        // Missing `wait` argument means, we are allowed to invoke directly if that's better.
+        let synchronous = (wait ? wait! : invokeDirectly)
+        
+        
+        switch (synchronous, barrier) {
+        case (false, false): dispatch_async(self._underlaying, closure)
+        case (true, false): (invokeDirectly ? closure() : dispatch_sync(self._underlaying, closure))
+        case (false, true): dispatch_barrier_async(self._underlaying, closure)
+        case (true, true): dispatch_barrier_sync(self._underlaying, closure)
+        default: break;
+        }
+    }
+    
+    func perform(after delay: NSTimeInterval, closure: () -> ()) {
+        assert(delay >= 0)
+        
+        let nanoseconds = Int64(delay * NSTimeInterval(NSEC_PER_SEC))
+        let time = dispatch_time(DISPATCH_TIME_NOW, nanoseconds)
+        dispatch_after(time, self._underlaying, closure)
+    }
+    
+    func perform(times count: UInt, closure: (UInt) -> ()) {
+        dispatch_apply(count, self._underlaying, closure)
+    }
+    
+    func perform(times count: UInt, closure: () -> ()) {
+        dispatch_apply(count, self._underlaying, { i in closure() })
+    }
     
 }
 

@@ -551,6 +551,7 @@
 				5BA1CBCC196A77D50075DB57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
