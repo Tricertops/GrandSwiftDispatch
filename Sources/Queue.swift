@@ -45,11 +45,13 @@ public class Queue : Printable, DebugPrintable {
     private init(underlying: NSOperationQueue, var name: String = "") {
         self.underlying = underlying
         
-        if name.isEmpty {
-            name += Queue.nameOfQuality(quality)
-            name += isConcurrent ? " Concurrent" : " Serial"
-            name += " Queue"
+        if !name.isEmpty {
+            name += " "
         }
+        name += Queue.nameOfQuality(underlying.qualityOfService)
+        name += underlying.maxConcurrentOperationCount != 1 ? " Concurrent" : " Serial"
+        name += " Queue"
+        
         self.name = name
     }
     
