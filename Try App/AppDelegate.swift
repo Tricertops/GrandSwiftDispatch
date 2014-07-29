@@ -21,34 +21,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.rootViewController = UIViewController()
         self.window!.makeKeyAndVisible()
         
-        let queue = Queue(concurrent: true)
         
-        queue.perform {
-            NSLog("Simple")
-        }
-        
-        queue.perform(wait: true) {
-            NSLog("Waiting")
-        }
-        
-        queue.perform(wait: false, barrier: true) {
-            NSLog("Barrier")
-        }
-        
-        queue.perform(after: 2) {
-            NSLog("Delay")
-        }
-        
-        queue.perform(times: 5) {
-            NSLog("Multiple")
-        }
-        
-        queue.perform {
-            // Task
-            Queue.main.perform {
-                // Callback
-            }
-        }
+//        let queue = Queue(concurrent: true)
+//        
+//        queue.perform {
+//            NSLog("Simple")
+//        }
+//        
+//        queue.perform(wait: true) {
+//            NSLog("Waiting")
+//        }
+//        
+//        queue.perform(wait: false, barrier: true) {
+//            NSLog("Barrier")
+//        }
+//        
+//        queue.perform(after: 2) {
+//            NSLog("Delay")
+//        }
+//        
+//        queue.perform(times: 5) {
+//            NSLog("Multiple")
+//        }
+//        
+//        queue.perform {
+//            // Task
+//            Queue.main.perform {
+//                // Callback
+//            }
+//        }
         
         
         return true
