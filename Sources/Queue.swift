@@ -13,25 +13,34 @@ let Yes = true
 let No = false
 
 
-
 public class Queue : Printable, DebugPrintable {
     //MARK: Static instances
-    public class var Main: Queue { return Queue.Singletons.Main }
-    public class var Interactive: Queue { return Queue.Singletons.Interactive }
-    public class var User: Queue { return Queue.Singletons.User }
-    public class var Utility: Queue { return Queue.Singletons.Utility }
-    public class var Background: Queue { return Queue.Singletons.Background }
+    public class var Main: Queue { return Queue.Global.Main }
+    public class var Interactive: Queue { return Queue.Global.Interactive }
+    public class var User: Queue { return Queue.Global.User }
+    public class var Utility: Queue { return Queue.Global.Utility }
+    public class var Background: Queue { return Queue.Global.Background }
     //TODO: Class variables once they are supported
-    private struct Singletons {
+    private struct Global {
         static let Main = Queue(underlying: NSOperationQueue.mainQueue(), name: "Main")
         static let Interactive = Queue(quality: .UserInteractive, concurrent: Yes, name: "Global")
         static let User = Queue(quality: .UserInitiated, concurrent: Yes, name: "Global")
         static let Utility = Queue(quality: .Utility, concurrent: Yes, name: "Global")
         static let Background = Queue(quality: .Background, concurrent: Yes, name: "Global")
+        static let all = [ Main, Interactive, User, Utility, Background ]
     }
     
     //MARK: Dynamic Instances
-    public class var Current: Queue { return Queue(underlying: NSOperationQueue.currentQueue()) }
+    public class var Current: Queue {
+    let queue = Queue(underlying: NSOperationQueue.currentQueue())
+        for global in Global.all {
+            if queue == global {
+                return global
+            }
+        }
+        //TODO: Always return existing instance, not just for global
+        return queue
+    }
     
     //MARK: Properties
     public let name: String
@@ -55,7 +64,7 @@ public class Queue : Printable, DebugPrintable {
         self.name = name
     }
     
-    public convenience init(quality: NSQualityOfService, concurrent: Bool = No, name: String = "") {
+    public convenience init(quality: NSQualityOfService = .Utility, concurrent: Bool = No, name: String = "") {
         let underlying = NSOperationQueue()
         underlying.qualityOfService = quality
         let max = NSOperationQueueDefaultMaxConcurrentOperationCount

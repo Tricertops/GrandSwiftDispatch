@@ -9,6 +9,9 @@
 import UIKit
 import GrandSwiftDispatch
 
+let Yes = true
+let No = false
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
                             
@@ -23,6 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         println(Queue.Main)
         println(Queue.Utility)
+        println(Queue.Current)
+        println(Queue())
+        println(Queue(quality: .UserInitiated, concurrent: Yes, name: "Processing"))
         
 //        let queue = Queue(concurrent: true)
 //        
