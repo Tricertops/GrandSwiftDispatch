@@ -23,11 +23,11 @@ public class Queue : Printable, DebugPrintable {
     public class var Background: Queue { return Queue.Singletons.Background }
     //TODO: Class variables once they are supported
     private struct Singletons {
-        static let Main = Queue(underlying: NSOperationQueue.mainQueue())
-        static let Interactive = Queue(quality: .UserInteractive, concurrent: Yes)
-        static let User = Queue(quality: .UserInitiated, concurrent: Yes)
-        static let Utility = Queue(quality: .Utility, concurrent: Yes)
-        static let Background = Queue(quality: .Background, concurrent: Yes)
+        static let Main = Queue(underlying: NSOperationQueue.mainQueue(), name: "Main")
+        static let Interactive = Queue(quality: .UserInteractive, concurrent: Yes, name: "Global")
+        static let User = Queue(quality: .UserInitiated, concurrent: Yes, name: "Global")
+        static let Utility = Queue(quality: .Utility, concurrent: Yes, name: "Global")
+        static let Background = Queue(quality: .Background, concurrent: Yes, name: "Global")
     }
     
     //MARK: Dynamic Instances
@@ -76,7 +76,7 @@ public class Queue : Printable, DebugPrintable {
     public var description: String {
     var description = self.name
         if Queue.Current == self {
-            description = "Current " + description
+            description += " (Current)"
         }
     return description
     }

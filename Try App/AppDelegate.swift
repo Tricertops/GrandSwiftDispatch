@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.rootViewController = UIViewController()
         self.window!.makeKeyAndVisible()
         
+        println(Queue.Main)
+        println(Queue.Utility)
         
 //        let queue = Queue(concurrent: true)
 //        
