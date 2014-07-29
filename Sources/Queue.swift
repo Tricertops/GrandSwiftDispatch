@@ -47,23 +47,7 @@ public class Queue : Printable, DebugPrintable {
     public var quality: NSQualityOfService { return underlying.qualityOfService }
     public var isConcurrent: Bool { return underlying.maxConcurrentOperationCount != 1 }
     
-    
-    //MARK: Underlying Queue
-    private let underlying: NSOperationQueue
-    
-    private init(underlying: NSOperationQueue, var name: String = "") {
-        self.underlying = underlying
-        
-        if !name.isEmpty {
-            name += " "
-        }
-        name += Queue.nameOfQuality(underlying.qualityOfService)
-        name += underlying.maxConcurrentOperationCount != 1 ? " Concurrent" : " Serial"
-        name += " Queue"
-        
-        self.name = name
-    }
-    
+    //MARK: Creating
     public convenience init(quality: NSQualityOfService = .Utility, concurrent: Bool = No, name: String = "") {
         let underlying = NSOperationQueue()
         underlying.qualityOfService = quality
@@ -72,7 +56,29 @@ public class Queue : Printable, DebugPrintable {
         self.init(underlying: underlying, name: name)
     }
     
-    class func nameOfQuality(quality: NSQualityOfService) -> String {
+    //MARK: Underlying Queue
+    private let underlying: NSOperationQueue
+    
+    private init(underlying: NSOperationQueue, var name: String = "") {
+        self.underlying = underlying
+        self.name = Queue.fullNameFromName(name, underlying: underlying)
+    }
+    
+    //MARK: Descriptions
+    private class func fullNameFromName(name: String, underlying: NSOperationQueue) -> String {
+        var fullName = ""
+        
+        if !name.isEmpty {
+            fullName += name + " "
+        }
+        fullName += Queue.nameOfQuality(underlying.qualityOfService)
+        fullName += underlying.maxConcurrentOperationCount != 1 ? " Concurrent" : " Serial"
+        fullName += " Queue"
+        
+        return fullName
+    }
+    
+    private class func nameOfQuality(quality: NSQualityOfService) -> String {
         switch quality {
         case .UserInteractive: return "Interactive"
         case .UserInitiated: return "User"
@@ -93,6 +99,7 @@ public class Queue : Printable, DebugPrintable {
     public var debugDescription: String {
     return description + " \(self.underlying)"
     }
+    
     
 //    func perform(wait: Bool? = nil, barrier: Bool = false, closure: () -> ()) {
 //        
@@ -132,7 +139,7 @@ public class Queue : Printable, DebugPrintable {
     
 }
 
-
+//MARK: Operators
 func == (left: Queue, right: Queue) -> Bool {
     return left.underlying === right.underlying
 }
