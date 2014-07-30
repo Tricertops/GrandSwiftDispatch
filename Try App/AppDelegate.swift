@@ -43,10 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSLog("Delay")
         }
         
-//        queue.perform(after: 2) {
-//            NSLog("Delay")
-//        }
-//        
 //        queue.perform(times: 5) {
 //            NSLog("Multiple")
 //        }

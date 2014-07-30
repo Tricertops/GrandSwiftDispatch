@@ -90,14 +90,18 @@ public extension Queue {
         }
     }
 
-//    func perform(after delay: NSTimeInterval, closure: () -> ()) {
-//        assert(delay >= 0)
-//        
-//        let nanoseconds = Int64(delay * NSTimeInterval(NSEC_PER_SEC))
-//        let time = dispatch_time(DISPATCH_TIME_NOW, nanoseconds)
-//        dispatch_after(time, self.underlyingQueue, closure)
-//    }
-//    
+    func perform(after delay: NSTimeInterval, function: () -> ()) {
+        assert(delay >= 0)
+        
+        let nanoseconds = Int64(delay * NSTimeInterval(NSEC_PER_SEC))
+        let time = dispatch_time(DISPATCH_TIME_NOW, nanoseconds)
+        //TODO: Use self.underlyingQueue
+        let underlying = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        dispatch_after(time, underlying) {
+            self.perform(wait: No, function: function)
+        }
+    }
+
 //    func perform(times count: UInt, indexedClosure: (UInt) -> ()) {
 //        assert(self != Queue.current)
 //        dispatch_apply(count, self.underlyingQueue, indexedClosure)
