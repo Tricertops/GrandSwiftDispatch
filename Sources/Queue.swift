@@ -2,7 +2,8 @@
 import Foundation
 
 
-public class Queue : Printable, DebugPrintable {
+public typealias Queue = NSOperationQueue
+public extension Queue {
     //MARK: Static instances
     public class var Main: Queue { return Queue.Global.Main }
     public class var Interactive: Queue { return Queue.Global.Interactive }
@@ -11,83 +12,58 @@ public class Queue : Printable, DebugPrintable {
     public class var Background: Queue { return Queue.Global.Background }
     //TODO: Class variables once they are supported
     private struct Global {
-        static let Main = Queue(underlying: NSOperationQueue.mainQueue(), name: "Main")
-        static let Interactive = Queue(quality: .UserInteractive, concurrent: Yes, name: "Global")
-        static let User = Queue(quality: .UserInitiated, concurrent: Yes, name: "Global")
-        static let Utility = Queue(quality: .Utility, concurrent: Yes, name: "Global")
-        static let Background = Queue(quality: .Background, concurrent: Yes, name: "Global")
+        static let Main = NSOperationQueue.mainQueue()
+        static let Interactive = Queue(quality: .UserInteractive, concurrent: Yes, adjective: "Global")
+        static let User = Queue(quality: .UserInitiated, concurrent: Yes, adjective: "Global")
+        static let Utility = Queue(quality: .Utility, concurrent: Yes, adjective: "Global")
+        static let Background = Queue(quality: .Background, concurrent: Yes, adjective: "Global")
         static let all = [ Main, Interactive, User, Utility, Background ]
     }
     
     //MARK: Dynamic Instances
-    public class var Current: Queue {
-    let queue = Queue(underlying: NSOperationQueue.currentQueue())
-        for global in Global.all {
-            if queue == global {
-                return global
-            }
-        }
-        //TODO: Always return existing instance, not just for global
-        return queue
-    }
-    
-    //MARK: Properties
-    public let name: String
-    public var quality: NSQualityOfService { return underlying.qualityOfService }
-    public var isConcurrent: Bool { return underlying.maxConcurrentOperationCount != 1 }
+    public class var Current: Queue { return Queue.currentQueue() }
     
     //MARK: Creating
-    public convenience init(quality: NSQualityOfService = .Utility, concurrent: Bool = No, name: String = "") {
-        let underlying = NSOperationQueue()
-        underlying.qualityOfService = quality
-        let max = NSOperationQueueDefaultMaxConcurrentOperationCount
-        underlying.maxConcurrentOperationCount = concurrent ? max : 1
-        self.init(underlying: underlying, name: name)
+    public convenience init(quality: NSQualityOfService, concurrent: Bool, adjective: String) {
+        self.init()
+        self.qualityOfService = quality
+        self.maxConcurrentOperationCount = concurrent ? NSOperationQueueDefaultMaxConcurrentOperationCount : 1
+        self.name = adjective
     }
     
-    //MARK: Underlying Queue
-    private let underlying: NSOperationQueue
     
-    private init(underlying: NSOperationQueue, var name: String = "") {
-        self.underlying = underlying
-        self.name = Queue.fullNameFromName(name, underlying: underlying)
-    }
-    
-    //MARK: Descriptions
-    private class func fullNameFromName(name: String, underlying: NSOperationQueue) -> String {
-        var fullName = ""
-        
-        if !name.isEmpty {
-            fullName += name + " "
-        }
-        fullName += Queue.nameOfQuality(underlying.qualityOfService)
-        fullName += underlying.maxConcurrentOperationCount != 1 ? " Concurrent" : " Serial"
-        fullName += " Queue"
-        
-        return fullName
-    }
-    
+    //MARK: Description
     private class func nameOfQuality(quality: NSQualityOfService) -> String {
         switch quality {
         case .UserInteractive: return "Interactive"
         case .UserInitiated: return "User"
         case .Utility: return "Utility"
         case .Background: return "Background"
-        default: return "Unspecified"
+        default: return "Default"
         }
     }
     
-    public var description: String {
-    var description = self.name
+    public override var description: String {
+    var name = ""
+        
+        if self.name? && !self.name.hasPrefix("NSOperationQueue") {
+            name += self.name + " "
+        }
+        else if Queue.Main == self {
+            name += "Main "
+        }
+        name += Queue.nameOfQuality(self.qualityOfService)
+        name += self.maxConcurrentOperationCount != 1 ? " Concurrent" : " Serial"
+        name += " Queue"
+        
         if Queue.Current == self {
-            description += " (Current)"
+            name += " (Current)"
         }
-    return description
+        //TODO: Inlude suspended state
+        
+        return name
     }
     
-    public var debugDescription: String {
-    return description + " \(self.underlying)"
-    }
     
     
 //    func perform(wait: Bool? = nil, barrier: Bool = false, closure: () -> ()) {
@@ -128,8 +104,4 @@ public class Queue : Printable, DebugPrintable {
     
 }
 
-//MARK: Operators
-func == (left: Queue, right: Queue) -> Bool {
-    return left.underlying === right.underlying
-}
 

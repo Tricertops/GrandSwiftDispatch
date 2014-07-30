@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println(Queue.Utility)
         println(Queue.Current)
         println(Queue())
-        println(Queue(quality: .UserInitiated, concurrent: Yes, name: "Processing"))
+        println(Queue(quality: .UserInitiated, concurrent: Yes, adjective: "Processing"))
         
 //        let queue = Queue(concurrent: true)
 //        
