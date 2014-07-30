@@ -21,7 +21,7 @@ public extension Queue {
     }
     
     //MARK: Dynamic Instances
-    public class var Current: Queue { return Queue.currentQueue() }
+    public class var Current: Queue! { return Queue.currentQueue() }
     
     //MARK: Creating
     public convenience init(quality: NSQualityOfService, concurrent: Bool = Yes, adjective: String = "") {
@@ -72,22 +72,19 @@ public extension Queue {
     }
     
     public func perform(wait optionalWait: Bool?, function: () -> ()) {
-
-        let wouldDeadlock = (self == Queue.Current)
-
-        let invokeDirectly = wouldDeadlock
-        // Missing `wait` argument means, we are allowed to invoke directly if that's better.
-        let synchronous = optionalWait|invokeDirectly
+        let onSameQueue = (Queue.Current? && self == Queue.Current!)
         
-        let operation = NSBlockOperation(block: function)
+        // If no waiting specified, we will do direct invoke if on the same queue
+        let waiting = optionalWait|onSameQueue
         
-        if invokeDirectly {
-            operation.start()
+        if waiting && onSameQueue {
+            function()
         }
         else {
+            let operation = NSBlockOperation(block: function)
             self.addOperation(operation)
             
-            if synchronous {
+            if waiting {
                 operation.waitUntilFinished()
             }
         }

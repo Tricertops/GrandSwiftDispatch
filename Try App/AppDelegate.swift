@@ -26,13 +26,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         let queue = Queue(quality: .Utility)
-
+        
         queue.perform {
-            NSLog("Simple")
+            NSLog("Default")
         }
         
-        queue.perform(wait: true) {
-            NSLog("Waiting")
+        queue.perform(wait: Yes) {
+            NSLog("Synchronous")
+        }
+        
+        queue.perform(wait: No) {
+            NSLog("Asynchronous")
+        }
+        
+        queue.perform(after: 1) {
+            NSLog("Delay")
         }
         
 //        queue.perform(after: 2) {
