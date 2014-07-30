@@ -24,26 +24,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.rootViewController = UIViewController()
         self.window!.makeKeyAndVisible()
         
-        println(Queue.Main)
-        println(Queue.Utility)
-        println(Queue.Current)
-        println(Queue())
-        println(Queue(quality: .UserInitiated, concurrent: Yes, adjective: "Processing"))
         
         let queue = Queue(quality: .Utility)
 
-//        queue.perform {
-//            NSLog("Simple")
-//        }
-//        
-//        queue.perform(wait: true) {
-//            NSLog("Waiting")
-//        }
-//        
-//        queue.perform(wait: false, barrier: true) {
-//            NSLog("Barrier")
-//        }
-//        
+        queue.perform {
+            NSLog("Simple")
+        }
+        
+        queue.perform(wait: true) {
+            NSLog("Waiting")
+        }
+        
 //        queue.perform(after: 2) {
 //            NSLog("Delay")
 //        }

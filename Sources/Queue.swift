@@ -66,25 +66,33 @@ public extension Queue {
     }
     
     
+    public func perform(function: () -> ()) {
+        // This method exists, because compiler is stupid.
+        self.perform(wait: nil, function: function)
+    }
     
-//    func perform(wait: Bool? = nil, barrier: Bool = false, closure: () -> ()) {
-//        
-//        let wouldDeadlock = (self == Queue.current)
-//        assert( !barrier || !wouldDeadlock, "Cannot perform barrier on deadlocking queue.")
-//
-//        let invokeDirectly = (barrier == false && wouldDeadlock)
-//        // Missing `wait` argument means, we are allowed to invoke directly if that's better.
-//        let synchronous = (wait ? wait! : invokeDirectly)
-//        
-//        switch (synchronous, barrier) {
-//        case (false, false): dispatch_async(self.underlyingQueue, closure)
-//        case (true, false): (invokeDirectly ? closure() : dispatch_sync(self.underlyingQueue, closure))
-//        case (false, true): dispatch_barrier_async(self.underlyingQueue, closure)
-//        case (true, true): dispatch_barrier_sync(self.underlyingQueue, closure)
-//        default: break;
-//        }
-//    }
-//    
+    public func perform(wait optionalWait: Bool?, function: () -> ()) {
+
+        let wouldDeadlock = (self == Queue.Current)
+
+        let invokeDirectly = wouldDeadlock
+        // Missing `wait` argument means, we are allowed to invoke directly if that's better.
+        let synchronous = optionalWait|invokeDirectly
+        
+        let operation = NSBlockOperation(block: function)
+        
+        if invokeDirectly {
+            operation.start()
+        }
+        else {
+            self.addOperation(operation)
+            
+            if synchronous {
+                operation.waitUntilFinished()
+            }
+        }
+    }
+
 //    func perform(after delay: NSTimeInterval, closure: () -> ()) {
 //        assert(delay >= 0)
 //        
