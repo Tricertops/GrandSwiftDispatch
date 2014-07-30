@@ -24,7 +24,8 @@ public extension Queue {
     public class var Current: Queue { return Queue.currentQueue() }
     
     //MARK: Creating
-    public convenience init(quality: NSQualityOfService, concurrent: Bool, adjective: String) {
+    public convenience init(quality: NSQualityOfService, concurrent: Bool = Yes, adjective: String = "") {
+        // Cannot provide default value for all arguments, because it would become init()
         self.init()
         self.qualityOfService = quality
         self.maxConcurrentOperationCount = concurrent ? NSOperationQueueDefaultMaxConcurrentOperationCount : 1

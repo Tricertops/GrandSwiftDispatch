@@ -30,8 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println(Queue())
         println(Queue(quality: .UserInitiated, concurrent: Yes, adjective: "Processing"))
         
-//        let queue = Queue(concurrent: true)
-//        
+        let queue = Queue(quality: .Utility)
+
 //        queue.perform {
 //            NSLog("Simple")
 //        }
