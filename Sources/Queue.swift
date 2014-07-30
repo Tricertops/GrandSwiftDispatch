@@ -1,16 +1,5 @@
-//
-//  Queue.swift
-//  Grand Swift Dispatch
-//
-//  Created by Martin Kiss on 7.7.14.
-//  Copyright (c) 2014 Triceratops. All rights reserved.
-//
 
 import Foundation
-
-
-let Yes = true
-let No = false
 
 
 public class Queue : Printable, DebugPrintable {
