@@ -76,7 +76,7 @@ Queue.Main.perform {
     
 
 ## Initializer
-Convenience initializer that specifies Quality of Service and concurrency:
+Convenience initializer that specifies *Quality of Service* and concurrency:
 
 ```swift
 let queue = Queue(quality: .Utility, concurrent: No, adjective: "Processing")
@@ -91,4 +91,9 @@ println(Queue.Main) // Main Interactive Serial Queue (Current)
 println(Queue.Background) // Global Background Concurrent Queue
 println(queue) // Processing Utility Serial Queue
 ```
+
+  - Argument `adjective:` from the initializer is used in the description.
+  - Name of *Quality of Service* is included.
+  - Concurrency is also included.
+  - Current queues are marked.
 
