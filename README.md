@@ -1,43 +1,34 @@
 Grand Swift Dispatch
 ==================
----
 
-**Important:** Due to a bug in iOS 8, nothing you see here really works! **Yet.**
 
----
-
-Provides simple way to create and use GCD queues in Swift.
+Provides simple way to create and use NSOperationQueues in Swift.
 
 ```swift
-let queue = Queue(concurrent: true)
+let queue = Queue(quality: .Utility, concurrent: No)
 
 queue.perform {
-    NSLog("Simple")
+    NSLog("Default")
 }
 
-queue.perform(wait: true) {
-    NSLog("Waiting")
+queue.perform(wait: Yes) {
+    NSLog("Synchronous")
 }
 
-queue.perform(barrier: true) {
-    NSLog("Barrier")
+queue.perform(wait: No) {
+    NSLog("Asynchronous")
 }
 
-queue.perform(after: 2) {
-    NSLog("Delay")
+queue.perform(after: 1) {
+    NSLog("Delayed")
 }
 
-queue.perform(times: 5) {
-    NSLog("Multiple")
-}
 
 queue.perform {
-    // Task
-    Queue.main.perform {
+    // Work
+    Queue.Main.perform {
         // Callback
     }
 }
-
 ```
-
 
