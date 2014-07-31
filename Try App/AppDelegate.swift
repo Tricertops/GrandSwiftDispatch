@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.makeKeyAndVisible()
         
         
+        
         let queue = Queue(quality: .Utility)
         
         queue.perform {
@@ -40,19 +41,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         queue.perform(after: 1) {
-            NSLog("Delay")
+            NSLog("Delayed")
         }
         
-//        queue.perform(times: 5) {
-//            NSLog("Multiple")
-//        }
-//        
-//        queue.perform {
-//            // Task
-//            Queue.main.perform {
-//                // Callback
-//            }
-//        }
+        
+        queue.perform {
+            // Task
+            Queue.Main.perform {
+                // Callback
+            }
+        }
+        
+        
+        
+        Queue.Main.perform(wait: Yes) {
+            NSLog("No deadlock")
+            // If target and current queues are the same, invoked block directly.
+        }
+        
+        Queue.Main.perform {
+            NSLog("Instant")
+            // Invoked synchronously in place.
+            // When no `wait` argument is given and you are targetting the current queue.
+            // This prevents scheduling asynchronous blocks on the current thread and losing stack trace.
+        }
         
         
         return true
