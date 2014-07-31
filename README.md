@@ -7,6 +7,7 @@ Provides simple way to **create and use** NSOperationQueues in Swift.
 ## Types
   - **NSOperationQueue** is simply typealiased to **Queue** to save keystrokes.
 
+
 ## Accessing Queues
   - **Main Queue** is accessible via `Queue.Main`
   - **Current** queue is accessible via `Queue.Current`
@@ -15,6 +16,7 @@ Provides simple way to **create and use** NSOperationQueues in Swift.
     - **User** Initiated operations via `Queue.User`
     - **Utility** operations via `Queue.Utility`
     - **Background** operations via `Queue.Background`
+
 
 ## Simple Perform
   - There is a single method name **`perform`**:
@@ -35,7 +37,7 @@ Provides simple way to **create and use** NSOperationQueues in Swift.
         // Synchronous
     }
     ```
-
+    
   - Optional **delay** argument:
     
     ```swift
@@ -44,12 +46,42 @@ Provides simple way to **create and use** NSOperationQueues in Swift.
     }
     ```
 
+
+## No Direct Deadlock
+Waiting for operation on current queue **doesn't** create deadlock. The operation is invoked directly and is not even scheduled:
+    
+```swift
+Queue.Current.perform(wait: Yes) {
+    // Directly invoked
+}
+```
+
+  - Will not prevent **all** deadlocks, only **direct** ones.
+
+
+## Smart Waiting
+When no `wait:` argument is given and you are targetting current queue, the operation is also invoked **directly**:
+
+```swift
+// On Main Queue
+
+Queue.Main.perform {
+    // Directly invoked
+}
+```
+
+  - The operation is invoked by the **desired** queue.
+  - Doesn't **break** your call stack.
+  - Provide explicit `wait: No` to **opt-out**.
+    
+
 ## Initializer
 Convenience initializer that specifies Quality of Service and concurrency:
 
 ```swift
 let queue = Queue(quality: .Utility, concurrent: No, adjective: "Processing")
 ```
+
 
 ## Description
 Generated description for each Queue instance:
@@ -59,3 +91,4 @@ println(Queue.Main) // Main Interactive Serial Queue (Current)
 println(Queue.Background) // Global Background Concurrent Queue
 println(queue) // Processing Utility Serial Queue
 ```
+
