@@ -1,16 +1,13 @@
 Grand Swift Dispatch
 ==================
 
+Provides simple way to **create and use** NSOperationQueues in Swift.
 
-Provides simple way to create and use NSOperationQueues in Swift.
 
-Features
---------
-
-### Types
+## Types
   - **NSOperationQueue** is simply typealiased to **Queue** to save keystrokes.
 
-### Accessing Queues
+## Accessing Queues
   - **Main Queue** is accessible via `Queue.Main`
   - **Current** queue is accessible via `Queue.Current`
   - There is shared queue for each *Quality of Service*:
@@ -19,9 +16,9 @@ Features
     - **Utility** operations via `Queue.Utility`
     - **Background** operations via `Queue.Background`
 
-### Simple Perform
-  - There is a single method name `perform`:
-  
+## Simple Perform
+  - There is a single method name **`perform`**:
+    
     ```swift
     Queue.Utility.perform {
         // Work
@@ -31,30 +28,30 @@ Features
     }
     ```
 
-  - Optional argument for waiting:
-  
+  - Optional argument for **waiting**:
+    
     ```swift
     Queue.Utility.perform(wait: Yes) {
         // Synchronous
     }
     ```
 
-  - Optional delay argument:
-  
+  - Optional **delay** argument:
+    
     ```swift
     Queue.Utility.perform(delay: 1.5) {
         // Delayed
     }
     ```
 
-### Initializer
+## Initializer
 Convenience initializer that specifies Quality of Service and concurrency:
 
 ```swift
 let queue = Queue(quality: .Utility, concurrent: No, adjective: "Processing")
 ```
 
-### Description
+## Description
 Generated description for each Queue instance:
 
 ```swift
