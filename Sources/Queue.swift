@@ -21,7 +21,7 @@ public extension Queue {
     }
     
     //MARK: Dynamic Instances
-    public class var Current: Queue! { return Queue.currentQueue() }
+    public class var Current: Queue? { return Queue.currentQueue() }
     
     //MARK: Creating
     public convenience init(quality: NSQualityOfService, concurrent: Bool = Yes, adjective: String = "") {
@@ -47,7 +47,7 @@ public extension Queue {
     public override var description: String {
     var name = ""
         
-        if self.name != nil && !self.name.hasPrefix("NSOperationQueue") {
+        if (self.name?).exists && !self.name.hasPrefix("NSOperationQueue") {
             name += self.name + " "
         }
         else if Queue.Main == self {
@@ -72,7 +72,7 @@ public extension Queue {
     }
     
     public func perform(wait optionalWait: Bool?, function: () -> ()) {
-        let onSameQueue = (Queue.Current != nil && self == Queue.Current!)
+        let onSameQueue = (Queue.Current.exists && self == Queue.Current!)
         
         // If no waiting specified, we will do direct invoke if on the same queue
         let waiting = optionalWait ?? onSameQueue
