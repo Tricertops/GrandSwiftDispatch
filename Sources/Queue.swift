@@ -47,7 +47,7 @@ public extension Queue {
     public override var description: String {
     var name = ""
         
-        if self.name? && !self.name.hasPrefix("NSOperationQueue") {
+        if self.name != nil && !self.name.hasPrefix("NSOperationQueue") {
             name += self.name + " "
         }
         else if Queue.Main == self {
@@ -72,10 +72,10 @@ public extension Queue {
     }
     
     public func perform(wait optionalWait: Bool?, function: () -> ()) {
-        let onSameQueue = (Queue.Current? && self == Queue.Current!)
+        let onSameQueue = (Queue.Current != nil && self == Queue.Current!)
         
         // If no waiting specified, we will do direct invoke if on the same queue
-        let waiting = optionalWait|onSameQueue
+        let waiting = optionalWait ?? onSameQueue
         
         if waiting && onSameQueue {
             function()
