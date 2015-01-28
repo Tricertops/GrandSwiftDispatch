@@ -47,8 +47,8 @@ public extension Queue {
     public override var description: String {
     var name = ""
         
-        if (self.name?).exists && !self.name.hasPrefix("NSOperationQueue") {
-            name += self.name + " "
+        if (self.name?.hasPrefix("NSOperationQueue") != nil) {
+            name += self.name! + " "
         }
         else if Queue.Main == self {
             name += "Main "
